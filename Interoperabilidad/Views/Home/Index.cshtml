@@ -1,14 +1,14 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿    ViewBag.Title = "Home Page";
 }
 <style>
 
     #izquierda {
-        float:left;
-         padding: 10px;
-         width:700px;
+        float: left;
+        padding: 10px;
+        width: 700px;
         /* margin: 40px;*/
     }
+
     #derecha {
         float: left;
         padding: 10px;
@@ -18,12 +18,13 @@
 </style>
 <h2>Interoperabilidad Hospital General de Medellin</h2>
 
-@using (Html.BeginForm()) {
-<div class=" form-group">
-    <button type="button" class="btn btn-success" id="GetPaciente">Consultar con Cedula</button>
-    <button type="button" class="btn btn-success" id="IdPaciente">Consultar con Id</button>
-    <button type="button" class="btn btn-success" id="enviar">Consultar Atenciones</button>
-</div>
+@using (Html.BeginForm())
+{
+    <div class=" form-group">
+        <button type="button" class="btn btn-success" id="GetPaciente">Consultar con Cedula</button>
+        <button type="button" class="btn btn-success" id="IdPaciente">Consultar con Id</button>
+        <button type="button" class="btn btn-success" id="enviar">Consultar Atenciones</button>
+    </div>
     <div class=" form-group">
         <input class="form-control" type="text" id="IdentificacionId" value="" placeholder="Ingrese numero de identificacion" />
     </div>
@@ -33,376 +34,424 @@
 <label id="Mensaje"></label>
 <h3>Informacion Demografica</h3>
 <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Tipo de identificacion</th>
-                <th>Identificacion</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Ciudad</th>
-                <th>Pais</th>
-                <th>Etnia</th>
-                <th>Sexo</th>
-                <th>Discapacidad</th>
-                <th>Edad</th>
-            </tr>
-        </thead>
-        <tbody id="pacientes">
-
-        </tbody>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Tipo de identificacion</th>
+            <th>Identificacion</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Ciudad</th>
+            <th>Pais</th>
+            <th>Etnia</th>
+            <th>Sexo</th>
+            <th>Discapacidad</th>
+            <th>Edad</th>
+        </tr>
+    </thead>
+    <tbody id="pacientes">
+    </tbody>
 </table>
 <h3>Atenciones</h3>
 
-    <div id="izquierda">
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Hospital</th>
-                    <th>Region</th>
-                    <th>Organizacion</th>
-                    <th>Url</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="atencion">
-            </tbody>
-        </table>
-    </div>
-    <div id="derecha">
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Atencion</th>
-                    <th>Medico</th>
-                </tr>
-            </thead>
-            <tbody id="aten">
-            </tbody>
-        </table>
-    </div>
+<div id="izquierda">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Hospital</th>
+                <th>Region</th>
+                <th>Organizacion</th>
+                <th>Url</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="atencion">
+        </tbody>
+    </table>
+</div>
+<div id="derecha">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Medico</th>
+            </tr>
+        </thead>
+        <tbody id="aten">
+        </tbody>
+    </table>
+</div>
+<div id="izquierda">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Composición</th>
+                <th>Condición</th>
+            </tr>
+        </thead>
+        <tbody id="med">
+        </tbody>
+    </table>
+</div>
+<div id="derecha">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Condición</th>
+                <th>Diagnostico</th>
+            </tr>
+        </thead>
+        <tbody id="cond">
+        </tbody>
+    </table>
+</div>
 
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#GetPaciente').on('click', function () {
+                var identificacion = $("#IdentificacionId").val();
+                if (identificacion == "") {
+                    $('#Mensaje').html('Ingrese Identificacion');
+                    return;
+                }
+                $.ajax({
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/Patient?identifier:contains=" + identificacion,
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/Patient?identifier:contains=632107",
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/Patient/" + identificacion,
+                    type: "GET",
+                    dataType: "json"
+                }).done(function (data) {
+                    var resultado = '';
+                    function calcularEdad(fecha) {
+                        var hoy = new Date();
+                        var cumpleanos = new Date(fecha);
+                        var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                        var m = hoy.getMonth() - cumpleanos.getMonth();
 
-    @section scripts{
-        <script type="text/javascript">
-            $(function () {
-                $('#GetPaciente').on('click', function () {
-                    var identificacion = $("#IdentificacionId").val();
-                    if (identificacion == "") {
-                        $('#Mensaje').html('Ingrese Identificacion');
-                        return;
-                    }
-                    $.ajax({
-                        url: "https://vulcano.sispropreprod.gov.co/fhir/Patient?identifier:contains=" + identificacion,
-                        //url: "https://vulcano.sispropreprod.gov.co/fhir/Patient?identifier:contains=632107",
-                        //url: "https://vulcano.sispropreprod.gov.co/fhir/Patient/" + identificacion,
-                        type: "GET",
-                        dataType: "json"
-                    }).done(function (data) {
-                        var resultado = '';
-                        function calcularEdad(fecha) {
-                            var hoy = new Date();
-                            var cumpleanos = new Date(fecha);
-                            var edad = hoy.getFullYear() - cumpleanos.getFullYear();
-                            var m = hoy.getMonth() - cumpleanos.getMonth();
-
-                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-                                edad--;
-                            }
-
-                            return edad;
+                        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                            edad--;
                         }
 
-                        var edad = calcularEdad(data.entry[0].resource.birthDate);
+                        return edad;
+                    }
 
-                        if (data.entry[0].resource.address) {
-                            if (data.entry[0].resource.extension[3]) {
-                                resultado += '<tr>' +
-                                    '<td>' + data.entry[0].resource.id + '</td>' +
-                                    '<td>' + data.entry[0].resource.identifier[0].type.coding[0].display + '</td>' +
-                                    '<td>' + data.entry[0].resource.identifier[0].value + '</td>' +
-                                    '<td>' + data.entry[0].resource.name[0].given + '</td>' +
-                                    '<td>' + data.entry[0].resource.name[0].family + '</td>' +
-                                    '<td>' + data.entry[0].resource.birthDate + '</td>' +
-                                    '<td>' + data.entry[0].resource.address[0].city + '</td>' +
-                                    '<td>' + data.entry[0].resource.address[0].country + '</td>' +
-                                    '<td>' + data.entry[0].resource.extension[2].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[2].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + data.entry[0].resource.extension[0].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[0].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + data.entry[0].resource.extension[1].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[1].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + edad + '</td>' +
-                                    '</tr>';
-                                $('#pacientes').html(resultado);
-                                console.log(data)
-                            } else {
-                                var cp = "NN", etgd = "NN";
+                    var edad = calcularEdad(data.entry[0].resource.birthDate);
 
-                                resultado += '<tr>' +
-                                    '<td>' + data.entry[0].resource.id + '</td>' +
-                                    '<td>' + data.entry[0].resource.identifier[0].type.coding[0].display + '</td>' +
-                                    '<td>' + data.entry[0].resource.identifier[0].value + '</td>' +
-                                    '<td>' + data.entry[0].resource.name[0].given + '</td>' +
-                                    '<td>' + data.entry[0].resource.name[0].family + '</td>' +
-                                    '<td>' + data.entry[0].resource.birthDate + '</td>' +
-                                    '<td>' + data.entry[0].resource.address[0].city + '</td>' +
-                                    '<td>' + data.entry[0].resource.address[0].country + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + edad + '</td>' +
-                                    '</tr>';
-                                $('#pacientes').html(resultado);
-                                console.log(data)
-
-                            }
-
+                    if (data.entry[0].resource.address) {
+                        if (data.entry[0].resource.extension[3]) {
+                            resultado += '<tr>' +
+                                '<td>' + data.entry[0].resource.id + '</td>' +
+                                '<td>' + data.entry[0].resource.identifier[0].type.coding[0].display + '</td>' +
+                                '<td>' + data.entry[0].resource.identifier[0].value + '</td>' +
+                                '<td>' + data.entry[0].resource.name[0].given + '</td>' +
+                                '<td>' + data.entry[0].resource.name[0].family + '</td>' +
+                                '<td>' + data.entry[0].resource.birthDate + '</td>' +
+                                '<td>' + data.entry[0].resource.address[0].city + '</td>' +
+                                '<td>' + data.entry[0].resource.address[0].country + '</td>' +
+                                '<td>' + data.entry[0].resource.extension[2].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[2].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + data.entry[0].resource.extension[0].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[0].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + data.entry[0].resource.extension[1].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[1].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + edad + '</td>' +
+                                '</tr>';
+                            $('#pacientes').html(resultado);
+                            console.log(data)
                         } else {
                             var cp = "NN", etgd = "NN";
-                            if (data.entry[0].resource.extension) {
-                                resultado += '<tr>' +
-                                    '<td>' + data.entry[0].resource.id + '</td>' +
-                                    '<td>' + data.entry[0].resource.identifier[0].type.coding[0].display + '</td>' +
-                                    '<td>' + data.entry[0].resource.identifier[0].value + '</td>' +
-                                    '<td>' + data.entry[0].resource.name[0].given + '</td>' +
-                                    '<td>' + data.entry[0].resource.name[0].family + '</td>' +
-                                    '<td>' + data.entry[0].resource.birthDate + '</td>' +
-                                    '<td>' + cp + '</td>' +
-                                    '<td>' + cp + '</td>' +
-                                    '<td>' + data.entry[0].resource.extension[2].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[2].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + data.entry[0].resource.extension[0].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[0].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + data.entry[0].resource.extension[1].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[1].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + edad + '</td>' +
-                                    '</tr>';
-                                $('#pacientes').html(resultado);
-                                console.log(data)
-                            } else {
 
-                                resultado += '<tr>' +
-                                    '<td>' + data.entry[0].resource.id + '</td>' +
-                                    '<td>' + data.entry[0].resource.identifier[0].type.coding[0].display + '</td>' +
-                                    '<td>' + data.entry[0].resource.identifier[0].value + '</td>' +
-                                    '<td>' + data.entry[0].resource.name[0].given + '</td>' +
-                                    '<td>' + data.entry[0].resource.name[0].family + '</td>' +
-                                    '<td>' + data.entry[0].resource.birthDate + '</td>' +
-                                    '<td>' + cp + '</td>' +
-                                    '<td>' + cp + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + edad + '</td>' +
-                                    '</tr>';
-                                $('#pacientes').html(resultado);
-                                console.log(data)
-                            }
+                            resultado += '<tr>' +
+                                '<td>' + data.entry[0].resource.id + '</td>' +
+                                '<td>' + data.entry[0].resource.identifier[0].type.coding[0].display + '</td>' +
+                                '<td>' + data.entry[0].resource.identifier[0].value + '</td>' +
+                                '<td>' + data.entry[0].resource.name[0].given + '</td>' +
+                                '<td>' + data.entry[0].resource.name[0].family + '</td>' +
+                                '<td>' + data.entry[0].resource.birthDate + '</td>' +
+                                '<td>' + data.entry[0].resource.address[0].city + '</td>' +
+                                '<td>' + data.entry[0].resource.address[0].country + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + edad + '</td>' +
+                                '</tr>';
+                            $('#pacientes').html(resultado);
+                            console.log(data)
 
                         }
 
-                    }).fail(function (data) {
-                        alert("mal");
-                    });
+                    } else {
+                        var cp = "NN", etgd = "NN";
+                        if (data.entry[0].resource.extension) {
+                            resultado += '<tr>' +
+                                '<td>' + data.entry[0].resource.id + '</td>' +
+                                '<td>' + data.entry[0].resource.identifier[0].type.coding[0].display + '</td>' +
+                                '<td>' + data.entry[0].resource.identifier[0].value + '</td>' +
+                                '<td>' + data.entry[0].resource.name[0].given + '</td>' +
+                                '<td>' + data.entry[0].resource.name[0].family + '</td>' +
+                                '<td>' + data.entry[0].resource.birthDate + '</td>' +
+                                '<td>' + cp + '</td>' +
+                                '<td>' + cp + '</td>' +
+                                '<td>' + data.entry[0].resource.extension[2].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[2].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + data.entry[0].resource.extension[0].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[0].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + data.entry[0].resource.extension[1].valueCodeableConcept.coding[0].code + " - " + data.entry[0].resource.extension[1].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + edad + '</td>' +
+                                '</tr>';
+                            $('#pacientes').html(resultado);
+                            console.log(data)
+                        } else {
 
-                    $.ajax({
-                        //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier=" + identificacion,
-                        url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier:contains=" + identificacion,
-                        type: "GET",
-                        dataType: "json"
-                    }).done(function (data) {
-                        var resultado = '';
-                        var aten = '', dm='N/A';
+                            resultado += '<tr>' +
+                                '<td>' + data.entry[0].resource.id + '</td>' +
+                                '<td>' + data.entry[0].resource.identifier[0].type.coding[0].display + '</td>' +
+                                '<td>' + data.entry[0].resource.identifier[0].value + '</td>' +
+                                '<td>' + data.entry[0].resource.name[0].given + '</td>' +
+                                '<td>' + data.entry[0].resource.name[0].family + '</td>' +
+                                '<td>' + data.entry[0].resource.birthDate + '</td>' +
+                                '<td>' + cp + '</td>' +
+                                '<td>' + cp + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + edad + '</td>' +
+                                '</tr>';
+                            $('#pacientes').html(resultado);
+                            console.log(data)
+                        }
 
-                        for (var i = 0; i < data.entry.length; i++) {
+                    }
 
-                            $.ajax({
-                                url: "https://vulcano.sispropreprod.gov.co/fhir/" + data.entry[i].resource.content[0].attachment.url + "/$document",
-                                type: "GET",
-                                dataType: "json"
-                            }).done(function (dat) {
-                                if (dat.entry[1].resource.code ) {
+                }).fail(function (data) {
+                    alert("mal");
+                });
+
+                $.ajax({
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier=" + identificacion,
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier:contains=" + identificacion,
+                    type: "GET",
+                    dataType: "json"
+                }).done(function (data) {
+                    var resultado = '';
+                    var aten = '', dm = 'N/A';
+
+                    for (var i = 0; i < data.entry.length; i++) {
+
+                        $.ajax({
+                            url: "https://vulcano.sispropreprod.gov.co/fhir/" + data.entry[i].resource.content[0].attachment.url + "/$document",
+                            type: "GET",
+                            dataType: "json"
+                        }).done(function (dat) {
+                            for (var i = 0; i < dat.entry.length; i++) {
+                                if (dat.entry[i].resource.resourceType == "Practitioner") {
                                     aten += '<tr>' +
-                                        '<td>' + dat.entry[1].resource.code.text + '</td>' +
-                                        '<td>' + dat.entry[3].resource.name[0].family + " " + dat.entry[3].resource.name[0].given[0] + '</td>' +
+                                        '<td>' + dat.entry[i].resource.name[0].family + " " + dat.entry[i].resource.name[0].given[0] + '</td>' +
                                         '</tr>';
-                                   
-                                } else {
-                                    aten += '<tr>' +
-                                        '<td>' + dm + '</td>' +
-                                        '<td>' + dm + '</td>' +
-                                        '</tr>';
-                                    
                                 }
 
-                                //aten += '<tr>' +
-                                //    '<td>' + dat.entry[1].resource.code.text + '</td>' +
-                                //    '<td>' + dat.entry[3].resource.name[0].family + " " + dat.entry[3].resource.name[0].given[0] + '</td>' +
-                                //    '</tr>';
-                                $('#aten').html(aten);
-                            }).fail(function (dat) {
-                                alert("mal dentro de la atencion");
-                            });
+                            }
+                            $('#aten').html(aten);
+                        }).fail(function (dat) {
+                            alert("mal dentro de la atencion");
+                        });
+                        resultado += '<tr>' +
+                            '<td>' + data.entry[i].resource.id + '</td>' +
+                            '<td>' + data.entry[i].resource.author[0].display + '</td>' +
+                            '<td>' + data.entry[i].resource.custodian.display + '</td>' +
+                            '<td>' + data.entry[i].resource.custodian.reference + '</td>' +
+                            '<td>' + data.entry[i].resource.content[0].attachment.url + '</td>' +
+                            '<td>' + '<a href=" https://vulcano.sispropreprod.gov.co/fhir/' + data.entry[i].resource.content[0].attachment.url + '/$document" target="_blank" class="btn btn-info btn-xs" title="Editar" data-toggle="tooltip">' +
+                            '<span class="glyphicon glyphicon-edit">' + '</span>' +
+                            '</a>' + '</td>' +
+                            '</tr>';
+
+
+                    }
+                    console.log(data);
+                    console.log(data.entry.length);
+                    $('#atencion').html(resultado);
+                }).fail(function (data) {
+                    alert("mal");
+                });
+
+                $.ajax({
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier=" + identificacion,
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier:contains=" + identificacion,
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/Composition?patient.identifier:contains=" + identificacion,
+                    type: "GET",
+                    dataType: "json"
+                }).done(function (data) {
+                    var resultado = '';
+                    for (var i = 0; i < data.entry.length; i++) {
+                        for (var j = 0; j < data.entry[i].resource.section[0].entry.length; j++) {
                             resultado += '<tr>' +
                                 '<td>' + data.entry[i].resource.id + '</td>' +
-                                '<td>' + data.entry[i].resource.author[0].display + '</td>' +
-                                '<td>' + data.entry[i].resource.custodian.display + '</td>' +
-                                '<td>' + data.entry[i].resource.custodian.reference + '</td>' +
-                                '<td>' + data.entry[i].resource.content[0].attachment.url + '</td>' +
-                                '<td>' + '<a href=" https://vulcano.sispropreprod.gov.co/fhir/' + data.entry[i].resource.content[0].attachment.url + '/$document" target="_blank" class="btn btn-info btn-xs" title="Editar" data-toggle="tooltip">' +
-                                '<span class="glyphicon glyphicon-edit">' + '</span>' +
-                                '</a>' + '</td>' +
+                                '<td>' + data.entry[i].resource.section[0].entry[j].reference + '</td>' +
                                 '</tr>';
-
-
                         }
-                        console.log(data);
-                        console.log(data.entry.length);
-                        $('#atencion').html(resultado);
-                    }).fail(function (data) {
-                        alert("mal");
-                    });
-
-
-                });
-                $('#IdPaciente').on('click', function () {
-                    var identificacion = $("#IdentificacionId").val();
-                    if (identificacion == "") {
-                        $('#Mensaje').html('Ingrese Identificacion');
-                        return;
                     }
-                    $.ajax({
-                        //url: "https://vulcano.sispropreprod.gov.co/fhir/Patient?identifier:contains=" + identificacion,
-                        //url: "https://vulcano.sispropreprod.gov.co/fhir/Patient?identifier:contains=632107",
-                        url: "https://vulcano.sispropreprod.gov.co/fhir/Patient/" + identificacion,
-                        type: "GET",
-                        dataType: "json"
-                    }).done(function (data) {
-                        console.log(data);
-                        var resultado = '';
-                        function calcularEdad(fecha) {
-                            var hoy = new Date();
-                            var cumpleanos = new Date(fecha);
-                            var edad = hoy.getFullYear() - cumpleanos.getFullYear();
-                            var m = hoy.getMonth() - cumpleanos.getMonth();
+                    $('#med').html(resultado);
+                }).fail(function (data) {
+                    alert("mal");
+                });
 
-                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-                                edad--;
-                            }
-                            return edad;
+                $.ajax({
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier=" + identificacion,
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier:contains=" + identificacion,
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/Condition?patient.identifier:contains=" + identificacion,
+                    type: "GET",
+                    dataType: "json"
+                }).done(function (data) {
+                    var resultado = '';
+                    for (var i = 0; i < data.entry.length; i++) {
+                        resultado += '<tr>' +
+                            '<td>' + data.entry[i].resource.id + '</td>' +
+                            '<td>' + data.entry[i].resource.code.text + '</td>' +
+                            '</tr>';
+
+                    }
+
+                    $('#cond').html(resultado);
+                }).fail(function (data) {
+                    alert("mal");
+                });
+
+            });
+            $('#IdPaciente').on('click', function () {
+                var identificacion = $("#IdentificacionId").val();
+                if (identificacion == "") {
+                    $('#Mensaje').html('Ingrese Identificacion');
+                    return;
+                }
+                $.ajax({
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/Patient?identifier:contains=" + identificacion,
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/Patient?identifier:contains=632107",
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/Patient/" + identificacion,
+                    type: "GET",
+                    dataType: "json"
+                }).done(function (data) {
+                    console.log(data);
+                    var resultado = '';
+                    function calcularEdad(fecha) {
+                        var hoy = new Date();
+                        var cumpleanos = new Date(fecha);
+                        var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                        var m = hoy.getMonth() - cumpleanos.getMonth();
+
+                        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                            edad--;
                         }
-                        var edad = calcularEdad(data.birthDate);
-                        if (data.address) {
-                            if (data.extension[3]) {
-                                resultado += '<tr>' +
-                                    '<td>' + data.id + '</td>' +
-                                    '<td>' + data.identifier[0].type.coding[0].display + '</td>' +
-                                    '<td>' + data.identifier[0].value + '</td>' +
-                                    '<td>' + data.name[0].given + '</td>' +
-                                    '<td>' + data.name[0].family + '</td>' +
-                                    '<td>' + data.birthDate + '</td>' +
-                                    '<td>' + data.address[0].city + '</td>' +
-                                    '<td>' + data.address[0].country + '</td>' +
-                                    '<td>' + data.extension[2].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + data.extension[0].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + data.extension[1].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + edad + '</td>' +
-                                    '</tr>';
-                                $('#pacientes').html(resultado);
-                            } else {
-                                var cp = "NN", etgd = "NN";
-                                resultado += '<tr>' +
-                                    '<td>' + data.id + '</td>' +
-                                    '<td>' + data.identifier[0].type.coding[0].display + '</td>' +
-                                    '<td>' + data.identifier[0].value + '</td>' +
-                                    '<td>' + data.name[0].given + '</td>' +
-                                    '<td>' + data.name[0].family + '</td>' +
-                                    '<td>' + data.birthDate + '</td>' +
-                                    '<td>' + data.address[0].city + '</td>' +
-                                    '<td>' + data.address[0].country + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + edad + '</td>' +
-                                    '</tr>';
-                                $('#pacientes').html(resultado);
-                            }
+                        return edad;
+                    }
+                    var edad = calcularEdad(data.birthDate);
+                    if (data.address) {
+                        if (data.extension[3]) {
+                            resultado += '<tr>' +
+                                '<td>' + data.id + '</td>' +
+                                '<td>' + data.identifier[0].type.coding[0].display + '</td>' +
+                                '<td>' + data.identifier[0].value + '</td>' +
+                                '<td>' + data.name[0].given + '</td>' +
+                                '<td>' + data.name[0].family + '</td>' +
+                                '<td>' + data.birthDate + '</td>' +
+                                '<td>' + data.address[0].city + '</td>' +
+                                '<td>' + data.address[0].country + '</td>' +
+                                '<td>' + data.extension[2].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + data.extension[0].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + data.extension[1].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + edad + '</td>' +
+                                '</tr>';
+                            $('#pacientes').html(resultado);
                         } else {
                             var cp = "NN", etgd = "NN";
-
-                            if (data.extension) {
-                                resultado += '<tr>' +
-                                    '<td>' + data.id + '</td>' +
-                                    '<td>' + data.identifier[0].type.coding[0].display + '</td>' +
-                                    '<td>' + data.identifier[0].value + '</td>' +
-                                    '<td>' + data.name[0].given + '</td>' +
-                                    '<td>' + data.name[0].family + '</td>' +
-                                    '<td>' + data.birthDate + '</td>' +
-                                    '<td>' + cp + '</td>' +
-                                    '<td>' + cp + '</td>' +
-                                    '<td>' + data.extension[2].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + data.extension[0].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + data.extension[1].valueCodeableConcept.coding[0].display + '</td>' +
-                                    '<td>' + edad + '</td>' +
-                                    '</tr>';
-                                $('#pacientes').html(resultado);
-                            } else {
-                                var cp = "NN", etgd = "NN";
-                                resultado += '<tr>' +
-                                    '<td>' + data.id + '</td>' +
-                                    '<td>' + data.identifier[0].type.coding[0].display + '</td>' +
-                                    '<td>' + data.identifier[0].value + '</td>' +
-                                    '<td>' + data.name[0].given + '</td>' +
-                                    '<td>' + data.name[0].family + '</td>' +
-                                    '<td>' + data.birthDate + '</td>' +
-                                    '<td>' + cp + '</td>' +
-                                    '<td>' + cp + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + etgd + '</td>' +
-                                    '<td>' + edad + '</td>' +
-                                    '</tr>';
-                                $('#pacientes').html(resultado);
-                            }
-
-                        }
-                    }).fail(function (data) {
-                        alert("No existe");
-                    });
-                });
-                $("#enviar").click(function () {
-
-                    var identificacion = $("#IdentificacionId").val();
-
-                    $.ajax({
-                        //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier=" + identificacion,
-                        url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier:contains=" + identificacion,
-                        type: "GET",
-                        dataType: "json"
-                    }).done(function (data) {
-                        var resultado = '';
-                        for (var i = 0; i < data.entry.length; i++) {
                             resultado += '<tr>' +
-                                '<td>' + data.entry[i].resource.id + '</td>' +
-                                '<td>' + data.entry[i].resource.custodian.display + '</td>' +
-                                '<td>' + data.entry[i].resource.custodian.reference + '</td>' +
-                                '<td>' + data.entry[i].resource.content[0].attachment.url + '</td>' +
-                                '<td>' + '<a href=" https://vulcano.sispropreprod.gov.co/fhir/' + data.entry[i].resource.content[0].attachment.url + '/$document" target="_blank" class="btn btn-info btn-xs" title="Editar" data-toggle="tooltip">' +
-                                '<span class="glyphicon glyphicon-edit">' + '</span>' +
-                                '</a>' + '</td>' +
-
+                                '<td>' + data.id + '</td>' +
+                                '<td>' + data.identifier[0].type.coding[0].display + '</td>' +
+                                '<td>' + data.identifier[0].value + '</td>' +
+                                '<td>' + data.name[0].given + '</td>' +
+                                '<td>' + data.name[0].family + '</td>' +
+                                '<td>' + data.birthDate + '</td>' +
+                                '<td>' + data.address[0].city + '</td>' +
+                                '<td>' + data.address[0].country + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + edad + '</td>' +
                                 '</tr>';
-
+                            $('#pacientes').html(resultado);
                         }
-                        console.log(data);
-                        console.log(data.entry.length);
-                        $('#atencion').html(resultado);
-                    }).fail(function (data) {
-                        alert("mal");
-                    });
+                    } else {
+                        var cp = "NN", etgd = "NN";
 
+                        if (data.extension) {
+                            resultado += '<tr>' +
+                                '<td>' + data.id + '</td>' +
+                                '<td>' + data.identifier[0].type.coding[0].display + '</td>' +
+                                '<td>' + data.identifier[0].value + '</td>' +
+                                '<td>' + data.name[0].given + '</td>' +
+                                '<td>' + data.name[0].family + '</td>' +
+                                '<td>' + data.birthDate + '</td>' +
+                                '<td>' + cp + '</td>' +
+                                '<td>' + cp + '</td>' +
+                                '<td>' + data.extension[2].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + data.extension[0].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + data.extension[1].valueCodeableConcept.coding[0].display + '</td>' +
+                                '<td>' + edad + '</td>' +
+                                '</tr>';
+                            $('#pacientes').html(resultado);
+                        } else {
+                            var cp = "NN", etgd = "NN";
+                            resultado += '<tr>' +
+                                '<td>' + data.id + '</td>' +
+                                '<td>' + data.identifier[0].type.coding[0].display + '</td>' +
+                                '<td>' + data.identifier[0].value + '</td>' +
+                                '<td>' + data.name[0].given + '</td>' +
+                                '<td>' + data.name[0].family + '</td>' +
+                                '<td>' + data.birthDate + '</td>' +
+                                '<td>' + cp + '</td>' +
+                                '<td>' + cp + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + etgd + '</td>' +
+                                '<td>' + edad + '</td>' +
+                                '</tr>';
+                            $('#pacientes').html(resultado);
+                        }
+
+                    }
+                }).fail(function (data) {
+                    alert("No existe");
                 });
+            });
+            $("#enviar").click(function () {
 
+                var identificacion = $("#IdentificacionId").val();
 
+                $.ajax({
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier=" + identificacion,
+                    //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier:contains=" + identificacion,
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/Condition?patient.identifier:contains=" + identificacion,
+                    type: "GET",
+                    dataType: "json"
+                }).done(function (data) {
+                    var resultado = '';
+                    for (var i = 0; i < data.entry.length; i++) {
+
+                        resultado += '<tr>' +
+                            '<td>' + data.entry[i].resource.code.text + '</td>' +
+                            '</tr>';
+
+                    }
+                    console.log(data);
+                    console.log(data.entry.length);
+                    $('#med').html(resultado);
+                }).fail(function (data) {
+                    alert("mal");
+                });
 
             });
 
-        </script>
-    }
+
+
+        });
+
+    </script>
+}
+
