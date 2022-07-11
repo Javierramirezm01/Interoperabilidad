@@ -1,0 +1,72 @@
+
+{
+  "resourceType" : "Practitioner",
+  "id" : "ProfesionalColombia",
+  "meta" : {
+    "versionId" : "1",
+    "lastUpdated" : "2021-10-13T22:23:44.162Z",
+    "profile" : [
+      "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/PractitionerCo"
+    ]
+  },
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">HOSPITAL GENERAL DE MEDELLIN</div>"
+  },
+  "identifier" : [
+    {
+      "type" : {
+        "extension" : [
+          {
+            "url" : "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/co-pais",
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "system" : "https://www.minsalud.gov.co/ihc/fhir/CodeSystem/PaisesCS",
+                  "code" : "170"
+                }
+              ]
+            }
+          }
+        ],
+        "coding" : [
+          {
+            "system" : "https://www.minsalud.gov.co/ihc/fhir/CodeSystem/IdspersonaColombia",
+            "code" : "CC",
+            "display" : "Cédula ciudadanía"
+          }
+        ]
+      },
+      "value" : "12345",
+      "assigner" : {
+        "display" : "Registraduria Nacional"
+      }
+    }
+  ],
+  "active":true,
+  "name": [
+  {
+	  "family" : "PrimerApellido",
+	  "_family" : {
+		  "extension" : [
+		  {
+			"url" : "http://hl7.org/fhir/StructureDefinition/humanname-mothers-family",
+            "valueString" : "SegundoApellido"			
+			
+			  
+		  }
+		  ]
+		  
+	  },
+	  "given" : [
+	  "PrimerNombre",
+	  "SegundoNombre"
+	  ],
+	  
+	  "prefix" : [
+	  "DR"
+	  ]
+	  
+  }
+  ]
+}

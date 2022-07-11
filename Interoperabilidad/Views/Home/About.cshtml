@@ -1,7 +1,106 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>Crear Organizacion</h2>
 
-<p>Use this area to provide additional information.</p>
+
+
+@using (Html.BeginForm()) 
+{ 
+<div class="form-group">
+    <p>NIT ORGANIZACION</p>
+    <input class="form-control" type="text" id="NIT" value="" />
+</div>
+<div class="form-group">
+    <p>NOMBRE DE LA ORGANIZACION</p>
+    <input class="form-control" type="text" id="NOMBRE" value="" />
+</div>
+<div class="form-group">
+    <button type="button" class="btn btn-success" id="crear">CREAR</button>
+    <button type="button" class="btn btn-success" id="validar">VALIDAR</button>
+</div>
+
+
+
+}
+@section scripts{
+    <script type="text/javascript">
+        var crearorganizacion;
+
+        $(function () {
+            $.ajax({
+                url: "https://localhost:44367/Scripts/JSON/CreaOrganizacion.json",
+                type: "GET",
+                datatype:"json",
+
+            }).done(function (data) {
+                crearorganizacion = data;
+                console.log(crearorganizacion);
+
+
+            }).fail(function (data) {
+                alert("Error");
+            });
+            $("#validar").on('click', function () {
+                var nit = $("#NIT").val();
+                var nombre = $("#NOMBRE").val();
+                var jsonNIT = crearorganizacion.id = nit;
+                var jsonNOMBRE = crearorganizacion.name = nombre;
+                console.log(nit);
+                console.log(nombre);
+                var data2 = crearorganizacion;
+                console.log(data2)
+                $.ajax({
+                    
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/Organization/$validate",
+                    type: "POST",
+                    datatype: "json",
+                    data: JSON.stringify(crearorganizacion),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data, textStatus, jqXHR) { alert(textStatus + ": " + jqXHR.status) },
+                    error: function (error) {
+                        alert("No funciona");
+                    }
+                });
+
+            
+            });
+            $("#crear").on('click', function () {
+                var nit = $("#NIT").val();
+                var nombre = $("#NOMBRE").val();
+                var jsonNIT = crearorganizacion.id = nit;
+                var jsonNOMBRE = crearorganizacion.name = nombre;
+                console.log(nit);
+                console.log(nombre);
+                var data2 = crearorganizacion;
+                console.log(data2)
+                $.ajax({
+
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/Organization/",
+                    type: "POST",
+                    datatype: "json",
+                    data: JSON.stringify(crearorganizacion),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data, textStatus, jqXHR) { alert(textStatus + ": " + jqXHR.status) },
+                    error: function (error) {
+                        alert("No funciona");
+                    }
+                });
+
+
+            });
+
+
+
+
+        });
+
+
+
+
+
+
+    </script>
+    
+    
+    }

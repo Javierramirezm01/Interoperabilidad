@@ -1,17 +1,141 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "REGISTRAR MEDICO";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>@ViewBag.Title</h2>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <p>INGRESE EL PRIMER NOMBRE</p>
+        <input class="form-control" type="text" id="Nombre" value=" " />
+    </div>
+    <div class="form-group">
+        <p>INGRESE EL SEGUNDO NOMBRE</p>
+        <input class="form-control" type="text" id="segundoNombre" value="" />
+    </div>
+    <div class="form-group">
+        <p>INRESE EL PRIMER APELLIDO</p>
+        <input class="form-control" type="text" id="primerapellido" value="" />
+    </div>
+    <div class="form-group">
+        <p>INGRESE EL SEGUNDO APELLIDO</p>
+        <input class="form-control" type="text" id="segundoapellido" value="" />
+    </div>
+    <div class="form-group">
+        <p>INGRESE EL NUMERO DEL DOCUMENTO</p>
+        <input class="form-control" type="text" id="cedula" value="" />
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-success" id="crear">CREAR</button>
+        <button type="button" class="btn btn-success" id="validar">VALIDAR</button>
+    </div>
+@section scripts{
+    <script type="text/javascript">
+        var crearmedico;
+        $(function () {
+            $.ajax({
+                url: "https://localhost:44367/Scripts/JSON/RegistrarMedico.json",
+                type: "GET",
+                datatype: "json",
+            }).done(function (data) {
+                crearmedico = data;
+                console.log(crearmedico);
+            }).fail(function (data) {
+                alert("Error");
+            });
+            $("#validar").on('click', function () {
+                    var Pnombre = $("#Nombre").val();
+                    var Snombre = $("#segundoNombre").val();
+                    var Papellido = $("#primerapellido").val();
+                    var Sapellido = $("#segundoapellido").val();
+                    var cedula = $("#cedula").val();
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+                if ($("#segundoNombre").val().length === 0) {
+                    var jsonPnombre = crearmedico.name[0].given[0] = Pnombre;
+                    var jsonSnombre = crearmedico.name[0].given[1] = " ";
+                    var jsonPapellido = crearmedico.name[0].family = Papellido;
+                    var jsonSapellido = crearmedico.name[0]._family.extension[0].valueString = Sapellido;
+                    var jsonCedula = crearmedico.identifier[0].value = cedula;
+
+                } else { 
+                    var jsonPnombre = crearmedico.name[0].given[0] = Pnombre;
+                    var jsonSnombre = crearmedico.name[0].given[1] = Snombre;
+                    var jsonPapellido = crearmedico.name[0].family = Papellido;
+                    var jsonSapellido = crearmedico.name[0]._family.extension[0].valueString = Sapellido;
+                    var jsonCedula = crearmedico.identifier[0].value = cedula;
+                }
+                    console.log(crearmedico);
+                    var data2 = crearmedico;
+                    console.log(data2);
+                $.ajax({
+
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/Practitioner/$validate",
+                    type: "POST",
+                    datatype: "json",
+                    data: JSON.stringify(crearmedico),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data, textStatus, jqXHR) { alert(textStatus + ": " + jqXHR.status) },
+                    error: function (error) {
+                        alert("No funciona");
+                    }
+
+                });
+
+                
+
+
+            });
+            $("#crear").on('click', function () {
+                var Pnombre = $("#Nombre").val();
+                var Snombre = $("#segundoNombre").val();
+                var Papellido = $("#primerapellido").val();
+                var Sapellido = $("#segundoapellido").val();
+                var cedula = $("#cedula").val();
+
+                if ($("#segundoNombre").val().length === 0) {
+                    var jsonPnombre = crearmedico.name[0].given[0] = Pnombre;
+                    var jsonSnombre = crearmedico.name[0].given[1] = " ";
+                    var jsonPapellido = crearmedico.name[0].family = Papellido;
+                    var jsonSapellido = crearmedico.name[0]._family.extension[0].valueString = Sapellido;
+                    var jsonCedula = crearmedico.identifier[0].value = cedula;
+
+                } else {
+                    var jsonPnombre = crearmedico.name[0].given[0] = Pnombre;
+                    var jsonSnombre = crearmedico.name[0].given[1] = Snombre;
+                    var jsonPapellido = crearmedico.name[0].family = Papellido;
+                    var jsonSapellido = crearmedico.name[0]._family.extension[0].valueString = Sapellido;
+                    var jsonCedula = crearmedico.identifier[0].value = cedula;
+                }
+                console.log(crearmedico);
+                var data2 = crearmedico;
+                console.log(data2);
+                $.ajax({
+
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/Practitioner/",
+                    type: "POST",
+                    datatype: "json",
+                    data: JSON.stringify(crearmedico),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data, textStatus, jqXHR) { alert(textStatus + ": " + jqXHR.status) },
+                    error: function (error) {
+                        alert("No funciona");
+                    }
+
+                });
+
+
+
+
+            });
+
+
+           
+
+        });
+
+
+
+    </script>
+    
+    }
+} 
