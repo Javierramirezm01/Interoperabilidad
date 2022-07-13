@@ -247,60 +247,7 @@
                         alert("No funciona");
                     }
                 });
-
             });
-            $("#guardar").on('click', function () {
-
-
-                var documento;
-
-                var tipoIdentificacion = document.getElementById("tipoI").value;
-                if (tipoIdentificacion === "CC") {
-                    documento = "Cédula ciudadanía";
-                } else {
-                    documento = "Tarjeta de identidad";
-                }
-                var codigo = $("#Codigo").val();
-                var diagnostico = $("#Diagnostico").val();
-                var descripcionDiagnostico = $("#descripcionCodigo").val();
-                var numeroIdentificacion = $("#IdentificacionId").val();
-                var primerApellido = $("#PrimerApellido").val();
-                var segundoApellido = $("#SegundoApellido").val();
-                var primerNombre = $("#PrimerNombre").val();
-                var segundoNombre = $("#SegundoNombre").val();
-                var genero = document.getElementById("genero").value;
-                var fehcaNacimiento = $("#fechaNacimiento").val().toString();
-
-
-                bundle.entry[2].resource.code.coding[0].code = codigo;
-                bundle.entry[2].resource.code.coding[0].display = descripcionDiagnostico;
-                bundle.entry[2].resource.code.text = diagnostico;
-                bundle.entry[3].resource.identifier[0].type.coding[0].code = tipoIdentificacion;
-                bundle.entry[3].resource.identifier[0].type.coding[0].display = documento;
-                bundle.entry[3].resource.identifier[0].value = numeroIdentificacion;
-                bundle.entry[3].resource.name[0].family = primerApellido;
-                bundle.entry[3].resource.name[0]._family.extension[0].valueString = segundoApellido;
-                bundle.entry[3].resource.name[0].given[0] = primerNombre;
-                bundle.entry[3].resource.name[0].given[1] = segundoNombre;
-                bundle.entry[3].resource.gender = genero;
-                bundle.entry[3].resource.birthDate = fehcaNacimiento;
-
-
-                $.ajax({
-
-                    url: "https://localhost:44367/Scripts/JSON/" + bundle,
-                    type: "POST",
-                    datatype: "text",
-                    data: JSON.stringify(bundle),
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data) { alert("Funciono") },
-                    error: function (error) {
-                        alert("No funciona");
-                    }
-                });
-
-            });
-
 
         });
 

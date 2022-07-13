@@ -1,6 +1,6 @@
-﻿   @{
-       ViewBag.Title = "Inicio";
-   }
+﻿@{
+    ViewBag.Title = "Inicio";
+}
 <style>
 
     #izquierda {
@@ -16,15 +16,25 @@
         width: 400px;
         /*margin: 40px;*/
     }
+    #imag {
+        float: left;
+        padding: 10px;
+        width: 400px;
+    }
+
 </style>
 <h2>Interoperabilidad Hospital General de Medellin</h2>
+<div id="imag">
+    <img  src="https://localhost:44367/Scripts/JSON/imagen.png" alt="HGM">
+</div>
 
+<br />
 @using (Html.BeginForm())
 {
+    <br />
     <div class=" form-group">
         <button type="button" class="btn btn-success" id="GetPaciente">Consultar con Cedula</button>
         <button type="button" class="btn btn-success" id="IdPaciente">Consultar con Id</button>
-        <button type="button" class="btn btn-success" id="enviar">Consultar Atenciones</button>
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle"
                     data-toggle="dropdown">
@@ -437,35 +447,6 @@
                     alert("No existe");
                 });
             });
-            $("#enviar").click(function () {
-
-                var identificacion = $("#IdentificacionId").val();
-
-                $.ajax({
-                    //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier=" + identificacion,
-                    //url: "https://vulcano.sispropreprod.gov.co/fhir/DocumentReference?subject.identifier:contains=" + identificacion,
-                    url: "https://vulcano.sispropreprod.gov.co/fhir/Condition?patient.identifier:contains=" + identificacion,
-                    type: "GET",
-                    dataType: "json"
-                }).done(function (data) {
-                    var resultado = '';
-                    for (var i = 0; i < data.entry.length; i++) {
-
-                        resultado += '<tr>' +
-                            '<td>' + data.entry[i].resource.code.text + '</td>' +
-                            '</tr>';
-
-                    }
-                    console.log(data);
-                    console.log(data.entry.length);
-                    $('#med').html(resultado);
-                }).fail(function (data) {
-                    alert("mal");
-                });
-
-            });
-
-
 
         });
 
