@@ -179,6 +179,56 @@
           "status" : "generated",
           "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"PacienteColombianoMinimo\" Version \"1\" Updated \"2022-03-08 10:23:44+0000\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-PacienteCo.html\">Paciente Co</a></p></div><p><b>identifier</b>: Cédula ciudadanía: 98765</p><p><b>name</b>: Luis Alberto Sanchez </p><p><b>gender</b>: male</p><p><b>birthDate</b>: 1974-12-25</p></div>"
         },
+		 "extension" : [
+			{
+			  "url" : "http://hl7.org/fhir/StructureDefinition/patient-genderIdentity",
+			  "valueCodeableConcept" : {
+				"coding" : [
+				  {
+					"system" : "https://www.minsalud.gov.co/ihc/fhir/CodeSystem/IdentidadGeneroCS",
+					"code" : "01",
+					"display" : "Masculino"
+				  }
+				]
+			  }
+			},
+			{
+			  "url" : "http://hl7.org/fhir/StructureDefinition/patient-disability",
+			  "valueCodeableConcept" : {
+				"coding" : [
+				  {
+					"system" : "https://www.minsalud.gov.co/ihc/fhir/CodeSystem/DiscapacidadCS",
+					"code" : "08",
+					"display" : "Sin discapacidad"
+				  }
+				]
+			  }
+			},
+			{
+			  "url" : "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/co-patient-etnia",
+			  "valueCodeableConcept" : {
+				"coding" : [
+				  {
+					"system" : "https://www.minsalud.gov.co/ihc/fhir/CodeSystem/EtniaCS",
+					"code" : "99",
+					"display" : "Ninguna de las anteriores"
+				  }
+				]
+			  }
+			},
+			{
+			  "url" : "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/co-patient-nacionalidad",
+			  "valueCodeableConcept" : {
+				"coding" : [
+				  {
+					"system" : "https://www.minsalud.gov.co/ihc/fhir/CodeSystem/PaisesCS",
+					"code" : "170",
+					"display" : "Colombia"
+				  }
+				]
+			  }
+			}
+		  ],
         "identifier" : [
           {
             "type" : {
@@ -227,8 +277,26 @@
           }
         ],
         "gender" : "other",
-        "birthDate" : "1990-05-11"
-      },
+        "birthDate" : "1990-05-11",
+		"address": [
+                    {
+                        "extension": [
+                            {
+                                "url": "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/ZonaResidencia",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "code": "02"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "city": "Medellín",
+                        "country": "152"
+                    }
+                ]
+        },
       "request" : {
         "method" : "POST",
         "url" : "Patient"
