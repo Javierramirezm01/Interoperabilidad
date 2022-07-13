@@ -164,8 +164,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\JSON\CreaOrganizacion.json" />
     <Content Include="Scripts\JSON\RegistrarMedico.json" />
-    <Content Include="Views\Home\ss.cshtml" />
-    <Content Include="Views\Home\RegMedico.cshtml" />
+    <Content Include="Scripts\JSON\ReportarComposition.json" />
+    <Content Include="Views\Home\Composition.cshtml" />
+    <Content Include="Scripts\JSON\Bundle-BundleColombiaCo.json" />
+    <Content Include="Scripts\JSON\EjemploBundleCo.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

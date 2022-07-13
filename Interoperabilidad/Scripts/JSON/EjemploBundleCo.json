@@ -1,0 +1,238 @@
+{
+  "resourceType" : "Bundle",
+  "id" : "BundleColombiaCo",
+  "meta" : {
+    "profile" : [
+      "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/BundleCo"
+    ]
+  },
+  "type" : "transaction",
+  "timestamp" : "2022-03-03T10:30:00Z",
+  "entry" : [
+    {
+      "fullUrl" : "urn:uuid:00d662ea-fd31-11ec-b939-0242ac120002",
+      "resource" : {
+        "resourceType" : "DocumentReference",
+        "id" : "DocumentReferenceCo",
+        "meta" : {
+          "profile" : [
+            "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/DocumentReferenceCo"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"DocumentReferenceCo\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-DocumentReferenceCo.html\">Referencia de Documentos</a></p></div><p><b>status</b>: current</p><p><b>type</b>: Patient summary Document <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#60591-5)</span></p><p><b>subject</b>: <a href=\"#Patient_PacienteColombianoMinimo\">See above (Patient/PacienteColombianoMinimo)</a></p><p><b>date</b>: 3 mar. 2022 07:30:00</p><p><b>author</b>: <a href=\"Organization-OrganizacionPrestadorEjemplo.html\">Organization/OrganizacionPrestadorEjemplo</a> \"Hospital de Colombia\"</p><p><b>custodian</b>: <a href=\"Organization-OrganizacionRegionEjemplo.html\">Organization/OrganizacionRegionEjemplo</a> \"DIRECCION DEPARTAMENTAL DE CUNDINAMARCA\"</p><blockquote><p><b>content</b></p></blockquote></div>"
+        },
+        "status" : "current",
+        "type" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "60591-5"
+            }
+          ]
+        },
+        "subject" : {
+          "reference" : "urn:uuid:6f214eb8-fd31-11ec-b939-0242ac120002"
+        },
+        "date" : "2022-03-03T10:30:00Z",
+        "author" : [
+          {
+            "reference" : "Organization/5491",
+			"display": "Hospital General de Medellín"
+          }
+        ],
+        "custodian" : {
+          "reference" : "Organization/reg-05",
+          "display": "Antioquia"
+        },
+        "content" : [
+          {
+            "attachment" : {
+              "contentType" : "application/fhir+json",
+              "url" : "urn:uuid:535fd266-fd32-11ec-b939-0242ac120002"
+            }
+          }
+        ]
+      },
+      "request" : {
+        "method" : "POST",
+        "url" : "DocumentReference"
+      }
+    },
+    {
+      "fullUrl" : "urn:uuid:535fd266-fd32-11ec-b939-0242ac120002",
+      "resource" : {
+        "resourceType" : "Composition",
+        "id" : "CompositionColombia",
+        "meta" : {
+          "versionId" : "1",
+          "lastUpdated" : "2021-10-13T22:23:44.162Z",
+          "profile" : [
+            "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/CompositionCo"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"CompositionColombia\" Version \"1\" Updated \"2021-10-13 10:23:44+0000\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-CompositionCo.html\">Documento Co</a></p></div><p><b>status</b>: final</p><p><b>type</b>: Patient Summary Document <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#60591-5)</span></p><p><b>date</b>: 2022-03-05 06:30:00+0100</p><p><b>author</b>: <a href=\"Practitioner-ProfesionalColombia.html\">Practitioner/ProfesionalColombia</a></p><p><b>title</b>: Resumen de Paciente Colombia</p><p><b>custodian</b>: <a href=\"Organization-OrganizacionRegionEjemplo.html\">Organization/OrganizacionRegionEjemplo</a> \"DIRECCION DEPARTAMENTAL DE CUNDINAMARCA\"</p></div>"
+        },
+        "status" : "final",
+        "type" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "60591-5",
+              "display" : "Patient Summary Document"
+            }
+          ]
+        },
+        "subject" : {
+          "reference" : "urn:uuid:6f214eb8-fd31-11ec-b939-0242ac120002"
+        },
+        "date" : "2022-03-05T18:30:00+01:00",
+        "author" : [
+          {
+            "reference" : "Practitioner/6242"
+          }
+        ],
+        "title" : "Resumen de Paciente Colombia",
+        "custodian" : {
+          "reference" : "Organization/3977"
+        },
+        "section" : [
+          {
+            "title" : "Condiciones del Paciente",
+            "code" : {
+              "coding" : [
+                {
+                  "system" : "http://loinc.org",
+                  "code" : "11450-4",
+                  "display" : "Problem list Reported"
+                }
+              ]
+            },
+            "text" : {
+              "status" : "generated",
+              "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">CONDICIONES</div>"
+            },
+            "entry" : [
+              {
+                "reference" : "urn:uuid:17af751c-fd34-11ec-b939-0242ac120002"
+              }
+            ]
+          }
+        ]
+      },
+      "request" : {
+        "method" : "POST",
+        "url" : "Composition"
+      }
+    },
+    {
+      "fullUrl" : "urn:uuid:17af751c-fd34-11ec-b939-0242ac120002",
+      "resource" : {
+        "resourceType" : "Condition",
+        "id" : "ConditionColombia",
+        "meta" : {
+          "versionId" : "1",
+          "lastUpdated" : "2022-01-13T22:23:44.162Z",
+          "profile" : [
+            "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/ConditionCo"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"ConditionColombia\" Version \"1\" Updated \"2022-01-13 10:23:44+0000\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-ConditionCo.html\">Condition Co</a></p></div><p><b>code</b>: Diabetes Tipo 1, con complicaciones neurologicas <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-icd10.html\">ICD-10</a>#E10.4 \"Type 1 diabetes mellitus : With neurological complications\")</span></p><p><b>subject</b>: <a href=\"Patient-PacienteColombiano.html\">Patient/PacienteColombiano</a> \" LÓPEZ\"</p></div>"
+        },
+        "code" : {
+          "coding" : [
+            {
+              "system" : "http://hl7.org/fhir/sid/icd-10",
+              "code" : "V092",
+              "display" : "Peaton lesionado en accidente de transito que involucra otros vehiculos de motor, y los no especificados"
+            }
+          ],
+          "text" : "Peaton lesionado en accidente de transito que involucra otros vehiculos de motor, y los no especificados"
+        },
+        "subject" : {
+          "reference" : "urn:uuid:6f214eb8-fd31-11ec-b939-0242ac120002"
+        }
+      },
+      "request" : {
+        "method" : "POST",
+        "url" : "Condition"
+      }
+    },
+    {
+      "fullUrl" : "urn:uuid:6f214eb8-fd31-11ec-b939-0242ac120002",
+      "resource" : {
+        "resourceType" : "Patient",
+        "id" : "PacienteColombianoMinimo",
+        "meta" : {
+          "versionId" : "1",
+          "lastUpdated" : "2022-03-08T22:23:44.162Z",
+          "profile" : [
+            "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/PacienteCo"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"PacienteColombianoMinimo\" Version \"1\" Updated \"2022-03-08 10:23:44+0000\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-PacienteCo.html\">Paciente Co</a></p></div><p><b>identifier</b>: Cédula ciudadanía: 98765</p><p><b>name</b>: Luis Alberto Sanchez </p><p><b>gender</b>: male</p><p><b>birthDate</b>: 1974-12-25</p></div>"
+        },
+        "identifier" : [
+          {
+            "type" : {
+              "extension" : [
+                {
+                  "url" : "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/co-pais",
+                  "valueCodeableConcept" : {
+                    "coding" : [
+                      {
+                        "system" : "https://www.minsalud.gov.co/ihc/fhir/CodeSystem/PaisesCS",
+                        "code" : "170"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "coding" : [
+                {
+                  "system" : "https://www.minsalud.gov.co/ihc/fhir/CodeSystem/IdspersonaColombia",
+                  "code" : "TI",
+                  "display" : "Tarjeta de identidad"
+                }
+              ]
+            },
+            "value" : "1101214-2",
+            "assigner" : {
+              "display" : "Registraduria Nacional"
+            }
+          }
+        ],
+        "name" : [
+          {
+            "family" : "Bermudez",
+            "_family" : {
+              "extension" : [
+                {
+                  "url" : "http://hl7.org/fhir/StructureDefinition/humanname-mothers-family",
+                  "valueString" : "Peréz"
+                }
+              ]
+            },
+            "given" : [
+              "Victor",
+              "Adrían"
+            ]
+          }
+        ],
+        "gender" : "other",
+        "birthDate" : "1990-05-11"
+      },
+      "request" : {
+        "method" : "POST",
+        "url" : "Patient"
+      }
+    }
+  ]
+}

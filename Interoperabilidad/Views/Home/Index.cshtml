@@ -1,5 +1,5 @@
 ﻿   @{
-       ViewBag.Title = "Home Page";
+       ViewBag.Title = "Inicio";
    }
 <style>
 
@@ -34,6 +34,7 @@
             <ul class="dropdown-menu" role="menu">
                 <li><a href="~/Home/About">Crear Organizacion</a></li>
                 <li><a href="~/Home/Contact">Crear Medico</a></li>
+                <li><a href="~/Home/Composition">Registrar Atencion</a></li>
             </ul>
         </div>
 
@@ -249,7 +250,7 @@
                     var aten = '', dm = 'N/A';
 
                     for (var i = 0; i < data.entry.length; i++) {
-
+                        //Consulta del medico
                         $.ajax({
                             url: "https://vulcano.sispropreprod.gov.co/fhir/" + data.entry[i].resource.content[0].attachment.url + "/$document",
                             type: "GET",
@@ -267,6 +268,7 @@
                         }).fail(function (dat) {
                             alert("mal dentro de la atencion");
                         });
+
                         resultado += '<tr>' +
                             '<td>' + data.entry[i].resource.id + '</td>' +
                             '<td>' + data.entry[i].resource.author[0].display + '</td>' +

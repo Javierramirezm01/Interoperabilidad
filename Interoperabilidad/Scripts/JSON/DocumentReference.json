@@ -1,0 +1,44 @@
+{
+  "resourceType" : "DocumentReference",
+  "id" : "DocumentReferenceCo",
+  "meta" : {
+    "profile" : [
+      "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/DocumentReferenceCo"
+    ]
+  },
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"DocumentReferenceCo\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-DocumentReferenceCo.html\">Referencia de Documentos</a></p></div><p><b>status</b>: current</p><p><b>type</b>: Patient summary Document <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#60591-5)</span></p><p><b>subject</b>: <a href=\"Patient-PacienteColombianoMinimo.html\">Patient/PacienteColombianoMinimo</a> \" SANCHEZ\"</p><p><b>date</b>: 3 mar. 2022 07:30:00</p><p><b>author</b>: <a href=\"Organization-OrganizacionPrestadorEjemplo.html\">Organization/OrganizacionPrestadorEjemplo</a> \"Hospital de Colombia\"</p><p><b>custodian</b>: <a href=\"Organization-OrganizacionRegionEjemplo.html\">Organization/OrganizacionRegionEjemplo</a> \"DIRECCION DEPARTAMENTAL DE CUNDINAMARCA\"</p><blockquote><p><b>content</b></p></blockquote></div>"
+  },
+  "status" : "current",
+  "type" : {
+    "coding" : [
+      {
+        "system" : "http://loinc.org",
+        "code" : "60591-5"
+      }
+    ]
+  },
+  "subject" : {
+    "reference" : "Patient/3955"
+  },
+  "date" : "2022-03-03T10:30:00Z",
+  "author" : [
+    {
+      "reference" : "Organization/5491",
+      "display": "Hospital General de Medellín"
+    }
+  ],
+  "custodian" : {
+     "reference" : "Organization/reg-05",
+     "display": "Antioquia"
+  },
+  "content" : [
+    {
+      "attachment" : {
+        "contentType" : "application/fhir+json",
+        "url" : "Composition/6607"
+      }
+    }
+  ]
+}

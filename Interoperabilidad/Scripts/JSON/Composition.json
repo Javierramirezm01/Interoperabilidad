@@ -1,0 +1,62 @@
+{
+  "resourceType" : "Composition",
+  "id" : "CompositionColombia",
+  "meta" : {
+    "versionId" : "1",
+    "lastUpdated" : "2021-10-13T22:23:44.162Z",
+    "profile" : [
+      "https://www.minsalud.gov.co/ihc/fhir/StructureDefinition/CompositionCo"
+    ]
+  },
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"CompositionColombia\" Version \"1\" Updated \"2021-10-13 10:23:44+0000\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-CompositionCo.html\">Documento Co</a></p></div><p><b>status</b>: final</p><p><b>type</b>: Patient Summary Document <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#60591-5)</span></p><p><b>date</b>: 2022-03-05 06:30:00+0100</p><p><b>author</b>: <a href=\"Practitioner-ProfesionalColombia.html\">Practitioner/ProfesionalColombia</a></p><p><b>title</b>: Resumen de Paciente Colombia</p><p><b>custodian</b>: <a href=\"Organization-OrganizacionRegionEjemplo.html\">Organization/OrganizacionRegionEjemplo</a> \"DIRECCION DEPARTAMENTAL DE CUNDINAMARCA\"</p></div>"
+  },
+  "status" : "final",
+  "type" : {
+    "coding" : [
+      {
+        "system" : "http://loinc.org",
+        "code" : "60591-5",
+        "display" : "Patient Summary Document"
+      }
+    ]
+  },
+  "subject" : {
+    "reference" : "Patient/3955"
+  },
+  "date" : "2022-03-05T18:30:00+01:00",
+  "author" : [
+    {
+      "reference" : "Practitioner/6242"
+    }
+  ],
+  "title" : "Resumen de Paciente Colombia",
+  "custodian" : {
+    "reference" : "Organization/reg-05",
+    "display": "Antioquia"
+  },
+  "section" : [
+    {
+      "title" : "Condiciones del Paciente",
+      "code" : {
+        "coding" : [
+          {
+            "system" : "http://loinc.org",
+            "code" : "11450-4",
+            "display" : "Problem list Reported"
+          }
+        ]
+      },
+      "text" : {
+        "status" : "generated",
+        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">CONDICIONES</div>"
+      },
+      "entry" : [
+        {
+          "reference" : "Condition/6007"
+        }
+      ]
+    }
+  ]
+}

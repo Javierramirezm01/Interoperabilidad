@@ -26,5 +26,10 @@ namespace Interoperabilidad.Controllers
 
             return View();
         }
+
+        public ActionResult Composition()
+        {
+            return View();
+        }
     }
 }

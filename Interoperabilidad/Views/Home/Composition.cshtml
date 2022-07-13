@@ -1,0 +1,311 @@
+﻿
+@{
+    ViewBag.Title = "Registrar Atencion";
+}
+
+
+
+<h2>Registrar Atencion</h2>
+@using (Html.BeginForm())
+{
+   <div class=" form-group">
+    <button type="button" class="btn btn-success" id="crear">Registrar Paciente</button>
+    <button type="button" class="btn btn-success" id="validar">Validar Paciente</button>
+</div>
+<div class=" form-group">
+    <select class="form-select" aria-label="Default select example" id="tipoI" name="tipoI" >
+        <option selected value="0">Tipo de documento</option>
+        <option value="CC">Cedula</option>
+        <option value="TI">Tarjeta de identidad</option>
+    </select>
+</div>
+<div class=" form-group">
+    <input class="form-control" type="text" id="IdentificacionId" value="1007020422" placeholder="Ingrese numero de identificacion" required/>
+</div>
+<div class=" form-group">
+    <input class="form-control" type="text" id="PrimerApellido" value="Ramirez" placeholder="Primer Apellido" required />
+</div>
+<div class=" form-group">
+    <input class="form-control" type="text" id="SegundoApellido" value="Monsalve" placeholder="Segundo Apellido" required/>
+</div>
+<div class=" form-group">
+    <input class="form-control" type="text" id="PrimerNombre" value="Javier" placeholder="Primer Nombre" required/>
+</div>
+<div class=" form-group">
+    <input class="form-control" type="text" id="SegundoNombre" value="Ramirez" placeholder="Segundo Nombre" required/>
+</div>
+<div class=" form-group">
+    <select class="form-select" aria-label="Default select example" id="genero" name="genero" >
+        <option selected value="0">Genero</option>
+        <option value="male">Hombre</option>
+        <option value="female">Mujer</option>
+        <option value="Other">Otro</option>
+    </select>
+</div>
+<div class=" form-group">
+    
+    Fecha de nacimiento: <input class="form-control" type="date" id="fechaNacimiento" value="" placeholder="Fecha de Nacimiento" />
+</div>
+<div class=" form-group">
+    <input class="form-control" type="text" id="Codigo" value="A213" placeholder="Codigo" />
+</div>
+<div class=" form-group">
+    <input class="form-control" type="text" id="descripcionCodigo" value="Rico" placeholder="Descripcion del codigo" />
+</div>
+<div class=" form-group">
+    <input class="form-control" type="text" id="Diagnostico" value="Millonario" placeholder="Diagnostico" />
+</div>
+}
+@section scripts{
+    <script type="text/javascript">
+
+        //variables
+        var bundle;
+        var fullUrlDocumentReference;
+        var fullUrlPaciente;
+        var fullUrlComposition;
+        var fullUrlCondicion;
+        var url = "urn:uuid:";
+      
+        $(function () {
+
+            //Obtener Json
+            $.ajax({
+                url: "https://localhost:44367/Scripts/JSON/EjemploBundleCo.json",
+                type: "GET",
+                datatype: "json",
+
+            }).done(function (data) {
+
+                bundle = data;
+
+                //obtener Full URl
+                $.ajax({
+                    url: "https://www.uuidgenerator.net/api/version1",
+                    type: "GET",
+                    datatype: "Text",
+
+                }).done(function (data) {
+                    fullUrlDocumentReference = data;
+                    bundle.entry[0].fullUrl = url + fullUrlDocumentReference;
+                    console.log(fullUrlDocumentReference + "Reference");
+                }).fail(function (data) {
+                    alert("Error");
+                });
+
+
+                $.ajax({
+                    url: "https://www.uuidgenerator.net/api/version1",
+                    type: "GET",
+                    datatype: "Text",
+
+                }).done(function (data) {
+                    fullUrlPaciente = data;
+                    console.log(fullUrlPaciente + "Paciente");
+                    bundle.entry[0].resource.subject.reference = url + fullUrlPaciente;
+                    bundle.entry[1].resource.subject.reference = url + fullUrlPaciente;
+                    bundle.entry[2].resource.subject.reference = url + fullUrlPaciente;
+                    bundle.entry[3].fullUrl = url + fullUrlPaciente;
+
+                }).fail(function (data) {
+                    alert("Error");
+                });
+
+                $.ajax({
+                    url: "https://www.uuidgenerator.net/api/version1",
+                    type: "GET",
+                    datatype: "Text",
+
+                }).done(function (data) {
+                    fullUrlComposition = data;
+                    console.log(fullUrlComposition + "Composition");
+                    bundle.entry[0].resource.content[0].attachment.url = url + fullUrlComposition;
+                    bundle.entry[1].fullUrl = url + fullUrlComposition;
+                }).fail(function (data) {
+                    alert("Error");
+                });
+
+                $.ajax({
+                    url: "https://www.uuidgenerator.net/api/version1",
+                    type: "GET",
+                    datatype: "Text",
+
+                }).done(function (data) {
+                    fullUrlCondicion = data;
+                    console.log(fullUrlCondicion + "Condicion");
+                    bundle.entry[1].resource.section[0].entry[0].reference = url + fullUrlCondicion;
+                    bundle.entry[2].fullUrl = url + fullUrlCondicion;
+                }).fail(function (data) {
+                    alert("Error");
+                });
+                console.log(bundle);
+
+            }).fail(function (data) {
+                alert("Error");
+            });
+
+
+            $("#crear").on('click', function () {
+                
+
+                var documento;
+               
+                var tipoIdentificacion = document.getElementById("tipoI").value;
+                if (tipoIdentificacion === "CC") {
+                    documento = "Cédula ciudadanía";
+                } else {
+                    documento = "Tarjeta de identidad";
+                }
+                var codigo = $("#Codigo").val();
+                var diagnostico = $("#Diagnostico").val();
+                var descripcionDiagnostico = $("#descripcionCodigo").val();
+                var numeroIdentificacion = $("#IdentificacionId").val();
+                var primerApellido = $("#PrimerApellido").val();
+                var segundoApellido = $("#SegundoApellido").val();
+                var primerNombre = $("#PrimerNombre").val();
+                var segundoNombre = $("#SegundoNombre").val();
+                var genero = document.getElementById("genero").value;
+                var fehcaNacimiento = $("#fechaNacimiento").val().toString();
+          
+
+                bundle.entry[2].resource.code.coding[0].code = codigo;
+                bundle.entry[2].resource.code.coding[0].display = descripcionDiagnostico;
+                bundle.entry[2].resource.code.text = diagnostico;
+                bundle.entry[3].resource.identifier[0].type.coding[0].code = tipoIdentificacion;
+                bundle.entry[3].resource.identifier[0].type.coding[0].display = documento;
+                bundle.entry[3].resource.identifier[0].value = numeroIdentificacion;
+                bundle.entry[3].resource.name[0].family = primerApellido;
+                bundle.entry[3].resource.name[0]._family.extension[0].valueString = segundoApellido;
+                bundle.entry[3].resource.name[0].given[0] = primerNombre;
+                bundle.entry[3].resource.name[0].given[1] = segundoNombre;
+                bundle.entry[3].resource.gender = genero;
+                bundle.entry[3].resource.birthDate = fehcaNacimiento;
+
+
+                $.ajax({
+
+                    url: "https://vulcano.sispropreprod.gov.co/fhir",
+                    type: "POST",
+                    datatype: "json",
+                    data: JSON.stringify(bundle),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data, textStatus, jqXHR) { alert(textStatus + ": " + jqXHR.status) },
+                    error: function (error) {
+                        alert("No funciona");
+                    }
+                });
+
+            });
+
+
+            $("#validar").on('click', function () {
+
+
+                var documento;
+
+                var tipoIdentificacion = document.getElementById("tipoI").value;
+                if (tipoIdentificacion === "CC") {
+                    documento = "Cédula ciudadanía";
+                } else {
+                    documento = "Tarjeta de identidad";
+                }
+                var codigo = $("#Codigo").val();
+                var diagnostico = $("#Diagnostico").val();
+                var descripcionDiagnostico = $("#descripcionCodigo").val();
+                var numeroIdentificacion = $("#IdentificacionId").val();
+                var primerApellido = $("#PrimerApellido").val();
+                var segundoApellido = $("#SegundoApellido").val();
+                var primerNombre = $("#PrimerNombre").val();
+                var segundoNombre = $("#SegundoNombre").val();
+                var genero = document.getElementById("genero").value;
+                var fehcaNacimiento = $("#fechaNacimiento").val().toString();
+
+
+                bundle.entry[2].resource.code.coding[0].code = codigo;
+                bundle.entry[2].resource.code.coding[0].display = descripcionDiagnostico;
+                bundle.entry[2].resource.code.text = diagnostico;
+                bundle.entry[3].resource.identifier[0].type.coding[0].code = tipoIdentificacion;
+                bundle.entry[3].resource.identifier[0].type.coding[0].display = documento;
+                bundle.entry[3].resource.identifier[0].value = numeroIdentificacion;
+                bundle.entry[3].resource.name[0].family = primerApellido;
+                bundle.entry[3].resource.name[0]._family.extension[0].valueString = segundoApellido;
+                bundle.entry[3].resource.name[0].given[0] = primerNombre;
+                bundle.entry[3].resource.name[0].given[1] = segundoNombre;
+                bundle.entry[3].resource.gender = genero;
+                bundle.entry[3].resource.birthDate = fehcaNacimiento;
+                console.log(bundle);
+
+                $.ajax({
+
+                    url: "https://vulcano.sispropreprod.gov.co/fhir/Bundle/$validate",
+                    type: "POST",
+                    datatype: "json",
+                    data: JSON.stringify(bundle),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data, textStatus, jqXHR) { alert(textStatus + ": " + jqXHR.status) },
+                    error: function (error) {
+                        alert("No funciona");
+                    }
+                });
+
+            });
+            $("#guardar").on('click', function () {
+
+
+                var documento;
+
+                var tipoIdentificacion = document.getElementById("tipoI").value;
+                if (tipoIdentificacion === "CC") {
+                    documento = "Cédula ciudadanía";
+                } else {
+                    documento = "Tarjeta de identidad";
+                }
+                var codigo = $("#Codigo").val();
+                var diagnostico = $("#Diagnostico").val();
+                var descripcionDiagnostico = $("#descripcionCodigo").val();
+                var numeroIdentificacion = $("#IdentificacionId").val();
+                var primerApellido = $("#PrimerApellido").val();
+                var segundoApellido = $("#SegundoApellido").val();
+                var primerNombre = $("#PrimerNombre").val();
+                var segundoNombre = $("#SegundoNombre").val();
+                var genero = document.getElementById("genero").value;
+                var fehcaNacimiento = $("#fechaNacimiento").val().toString();
+
+
+                bundle.entry[2].resource.code.coding[0].code = codigo;
+                bundle.entry[2].resource.code.coding[0].display = descripcionDiagnostico;
+                bundle.entry[2].resource.code.text = diagnostico;
+                bundle.entry[3].resource.identifier[0].type.coding[0].code = tipoIdentificacion;
+                bundle.entry[3].resource.identifier[0].type.coding[0].display = documento;
+                bundle.entry[3].resource.identifier[0].value = numeroIdentificacion;
+                bundle.entry[3].resource.name[0].family = primerApellido;
+                bundle.entry[3].resource.name[0]._family.extension[0].valueString = segundoApellido;
+                bundle.entry[3].resource.name[0].given[0] = primerNombre;
+                bundle.entry[3].resource.name[0].given[1] = segundoNombre;
+                bundle.entry[3].resource.gender = genero;
+                bundle.entry[3].resource.birthDate = fehcaNacimiento;
+
+
+                $.ajax({
+
+                    url: "https://localhost:44367/Scripts/JSON/" + bundle,
+                    type: "POST",
+                    datatype: "text",
+                    data: JSON.stringify(bundle),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) { alert("Funciono") },
+                    error: function (error) {
+                        alert("No funciona");
+                    }
+                });
+
+            });
+
+
+        });
+
+
+    </script>
+
+
+}
